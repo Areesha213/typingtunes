@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TypingTunes - Improve your typing speed by practicing with song lyrics! Track your WPM and accuracy in real-time.">
+    <meta name="keywords" content="typing practice, song lyrics typing, improve typing speed, WPM tracker">
+    <meta name="author" content="TypingTunes">
+    <meta property="og:title" content="TypingTunes - Fun Typing Practice with Song Lyrics">
+    <meta property="og:description" content="Enhance your typing skills by typing song lyrics. Track your speed and accuracy live!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourgithubrepo.com">
+    <meta property="og:image" content="https://yourgithubrepo.com/preview-image.jpg">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>TypingTunes - Improve Your Typing with Lyrics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden { display: none; }
+        .correct { color: blue; }
+        .incorrect { color: red; }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "TypingTunes",
+        "url": "https://yourgithubrepo.com",
+        "description": "TypingTunes is a typing practice tool where users improve typing speed by typing song lyrics.",
+        "applicationCategory": "Educational",
+        "operatingSystem": "All"
+    }
+    </script>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen p-4">
+    <h1 class="text-3xl font-bold mb-4">Type the Lyrics</h1>
+    
+    <select id="speed" class="mb-4 p-2 bg-gray-800 text-white rounded">
+        <option value="normal">Normal</option>
+        <option value="fast">Fast</option>
+        <option value="insane">Insane</option>
+    </select>
+    
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-2xl">
+        <textarea id="lyricsInput" class="w-full p-2 bg-gray-700 text-white rounded mb-4" rows="4" placeholder="Paste your lyrics here..."></textarea>
+        <button id="loadLyrics" class="bg-blue-500 px-4 py-2 rounded">Load Lyrics</button>
+        <p id="lyrics" class="text-lg mb-4 mt-4"></p>
+        <div id="displayLyrics" class="text-lg mb-4"></div>
+        <textarea id="userInput" class="w-full p-2 bg-gray-700 text-white rounded" rows="4" placeholder="Start typing..."></textarea>
+        <p class="mt-4">Accuracy: <span id="accuracy">100%</span> | WPM: <span id="wpm">0</span></p>
+    </div>
+
+    <script src="script.js"> </script>
+</body>
+</html> 
+
