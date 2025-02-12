@@ -9,7 +9,7 @@
     <meta property="og:title" content="TypingTunes - Fun Typing Practice with Song Lyrics">
     <meta property="og:description" content="Enhance your typing skills by typing song lyrics. Track your speed and accuracy live!">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://github.com/Areesha213/typingtunes.git">
+    <meta property="og:url" content="https://typingtunes.vercel.app/">
 <meta property="og:image" content="https://yourdomain.com/default-image.jpg">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <title>TypingTunes - Improve Your Typing with Lyrics</title>
@@ -19,18 +19,30 @@
         .correct { color: blue; }
         .incorrect { color: red; }
     </style>
+    <!-- Structured Data for SEO -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "TypingTunes",
-        "url": "https://github.com/Areesha213/typingtunes.git",
+        "url": "https://typingtunes.vercel.app/",
         "description": "TypingTunes is a typing practice tool where users improve typing speed by typing song lyrics.",
         "applicationCategory": "Educational",
         "operatingSystem": "All"
     }
     </script>
+
+   <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0NZH20B168"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0NZH20B168');
+</script>
 </head>
+ 
 <body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen p-4">
     <h1 class="text-3xl font-bold mb-4">Type the Lyrics</h1>
     
