@@ -44,7 +44,12 @@
 </script>
  
 <body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen p-4">
-    <h1 class="text-3xl font-bold mb-4">Type the Lyrics</h1>
+     <!-- Header -->
+     <header class="text-center py-6">
+        <h1 class="text-4xl font-bold text-indigo-600">TypingTunes - Enhance Your Typing Skills</h1>
+        <p class="text-indigo-400 text-lg mt-2">Practice typing with song lyrics and track your progress!</p>
+    </header>
+    <h1 class="text-3xl font-bold text-indigo-200 mb-4">Paste your  Lyrics</h1>
     
     <select id="speed" class="mb-4 p-2 bg-gray-800 text-white rounded">
         <option value="normal">Normal</option>
@@ -60,6 +65,154 @@
         <textarea id="userInput" class="w-full p-2 bg-gray-700 text-white rounded" rows="4" placeholder="Start typing..."></textarea>
         <p class="mt-4">Accuracy: <span id="accuracy">100%</span> | WPM: <span id="wpm">0</span></p>
     </div>
+    <section class="py-24">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mb-2 text-center">
+                <h2 class="text-4xl font-manrope font-bold text-indigo-600 mb-4 leading-[3.25rem]">
+                    Frequently Asked Questions
+                </h2>
+            </div>
+    
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="border-b border-gray-200 pb-4">
+                    <input type="checkbox" id="faq1" class="peer hidden">
+                    <label for="faq1" class="flex justify-between items-center cursor-pointer text-white font-medium hover:text-indigo-600">
+                        <span>How does TypingTunes work?</span>
+                        <svg class="w-5 h-5 transition-transform peer-checked:rotate-180 text-gray-500 group-hover:text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </label>
+                    <div class="max-h-0 overflow-hidden peer-checked:max-h-40 transition-all duration-500">
+                        <p class="text-gray-100 mt-2">Simply paste your favorite song lyrics, start typing, and track your speed & accuracy in real-time!</p>
+                    </div>
+                </div>
+    
+                <!-- FAQ Item 2 -->
+                <div class="border-b border-gray-200 pb-4">
+                    <input type="checkbox" id="faq2" class="peer hidden">
+                    <label for="faq2" class="flex justify-between items-center cursor-pointer text-white font-medium hover:text-indigo-600">
+                        <span>Can I use my own lyrics?</span>
+                        <svg class="w-5 h-5 transition-transform peer-checked:rotate-180 text-gray-500 group-hover:text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </label>
+                    <div class="max-h-0 overflow-hidden peer-checked:max-h-40 transition-all duration-500">
+                        <p class="text-gray-100 mt-2">Yes! Just copy and paste any song lyrics into the input field and start typing.</p>
+                    </div>
+                </div>
+    
+                <!-- FAQ Item 3 -->
+                <div class="border-b border-gray-200 pb-4">
+                    <input type="checkbox" id="faq3" class="peer hidden">
+                    <label for="faq3" class="flex justify-between items-center cursor-pointer text-white font-medium hover:text-indigo-600">
+                        <span>Is TypingTunes free to use?</span>
+                        <svg class="w-5 h-5 transition-transform peer-checked:rotate-180 text-gray-500 group-hover:text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </label>
+                    <div class="max-h-0 overflow-hidden peer-checked:max-h-40 transition-all duration-500">
+                        <p class="text-gray-100 mt-2">Absolutely! TypingTunes is completely free to use for all users.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mb-2 text-center">
+                <h2 class="text-4xl font-manrope font-bold text-indigo-600 mb-4 leading-[3.25rem]">
+                    Upcoming Features
+                </h2>
+                <p class="text-gray-300 text-lg">
+                    Exciting new features are on the way to enhance your typing experience!
+                </p>
+            </div>
+    
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                <!-- Feature 1 -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-semibold text-indigo-500">Multiplayer Mode</h3>
+                    <p class="text-gray-300 mt-2">
+                        Compete with friends in real-time typing battles and test your speed and accuracy.
+                    </p>
+                </div>
+    
+                <!-- Feature 2 -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-semibold text-indigo-500">Personalized Progress Tracking</h3>
+                    <p class="text-gray-300 mt-2">
+                        Get detailed insights into your typing speed, accuracy, and improvement trends over time.
+                    </p>
+                </div>
+    
+                <!-- Feature 3 -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-semibold text-indigo-500">Light & Dark Mode</h3>
+                    <p class="text-gray-300 mt-2">
+                        Choose between light and dark themes for a comfortable typing experience anytime.
+                    </p>
+                </div>
+    
+                <!-- Feature 4 -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-semibold text-indigo-500">AI-Based Typing Coach</h3>
+                    <p class="text-gray-300 mt-2">
+                        Get real-time feedback and suggestions from an AI-powered assistant to improve your typing skills.
+                    </p>
+                </div>
+    
+                <!-- Feature 5 -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-semibold text-indigo-500">Play Songs While Typing</h3>
+                    <p class="text-gray-300 mt-2">
+                        Listen to background music while you type to stay motivated and focused.
+                    </p>
+                </div>
+    
+                <!-- Feature 6 -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-semibold text-indigo-500">Custom Typing Challenges</h3>
+                    <p class="text-gray-300 mt-2">
+                        Create your own typing challenges and invite others to compete with you.
+                    </p>
+                </div>
+    
+                <!-- Feature 7 -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-semibold text-indigo-500">Login System & Progress Sharing</h3>
+                    <p class="text-gray-300 mt-2">
+                        Keep track of your typing progress, save records, and share achievements with friends.
+                    </p>
+                </div>
+    
+                <!-- Feature 8 -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-semibold text-indigo-500">Leaderboard & Achievements</h3>
+                    <p class="text-gray-300 mt-2">
+                        Earn badges, climb the leaderboard, and compete with top typists worldwide.
+                    </p>
+                </div>
+    
+                <!-- Feature 9 -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-semibold text-indigo-500">Submit Your Own Song Lyrics</h3>
+                    <p class="text-gray-300 mt-2">
+                        Add your favorite song lyrics to our database and practice typing with them.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <hr class="border-t-1 border-white my-6 w-full">
+
+    <!-- Footer -->
+    <footer class="mt-4 mb-1 text-center text-gray-400 text-sm">
+        <p>&copy; 2025 TypingTunes. All rights reserved.</p>
+    </footer>
+
 
     <script src="script.js"> </script>
 </body>
