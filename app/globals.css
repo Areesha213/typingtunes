@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 240 10% 95%; /* Light pastel background */
+    --foreground: 240 10% 20%; /* Dark text for contrast */
+    --card: 240 10% 98%; /* Slightly darker pastel for cards */
+    --card-foreground: 240 10% 20%;
+    --popover: 240 10% 98%;
+    --popover-foreground: 240 10% 20%;
+    --primary: 260 70% 60%; /* Soft purple for primary */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 280 60% 70%; /* Light pink for secondary */
+    --secondary-foreground: 0 0% 20%;
+    --muted: 240 10% 90%;
+    --muted-foreground: 240 10% 40%;
+    --accent: 300 70% 70%; /* Light pink for accents */
+    --accent-foreground: 0 0% 20%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 10% 85%;
+    --input: 240 10% 85%;
+    --ring: 260 70% 60%; /* Matching primary color */
+    --chart-1: 260 70% 60%; /* Soft purple */
+    --chart-2: 280 60% 70%; /* Light pink */
+    --chart-3: 220 70% 70%; /* Light blue */
+    --chart-4: 300 70% 70%; /* Light pink */
+    --chart-5: 240 70% 70%; /* Light purple */
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 10%; /* Deep space background */
+    --foreground: 240 10% 90%; /* Light text for contrast */
+    --card: 240 10% 15%; /* Slightly lighter space for cards */
+    --card-foreground: 240 10% 90%;
+    --popover: 240 10% 15%;
+    --popover-foreground: 240 10% 90%;
+    --primary: 260 70% 50%; /* Deep purple for primary */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 280 60% 50%; /* Deep pink for secondary */
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 10% 20%;
+    --muted-foreground: 240 10% 70%;
+    --accent: 300 70% 50%; /* Deep pink for accents */
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 10% 25%;
+    --input: 240 10% 25%;
+    --ring: 260 70% 50%; /* Matching primary color */
+    --chart-1: 260 70% 50%; /* Deep purple */
+    --chart-2: 280 60% 50%; /* Deep pink */
+    --chart-3: 220 70% 50%; /* Deep blue */
+    --chart-4: 300 70% 50%; /* Deep pink */
+    --chart-5: 240 70% 50%; /* Deep purple */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom Galaxy Gradient Background with Blur */
+body {
+  position: relative;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(
+    circle at 20% 50%,
+    hsl(260, 70%, 60%) 0%,
+    hsl(280, 60%, 50%) 30%,
+    hsl(220, 70%, 50%) 60%,
+    hsl(240, 70%, 50%) 100%
+  );
+  filter: blur(100px);
+  opacity: 0.8;
+}
+
+.dark body::before {
+  background: radial-gradient(
+    circle at 20% 50%,
+    hsl(260, 70%, 20%) 0%,
+    hsl(280, 60%, 15%) 30%,
+    hsl(220, 70%, 10%) 60%,
+    hsl(240, 70%, 5%) 100%
+  );
+  filter: blur(100px);
+  opacity: 0.8;
+}
