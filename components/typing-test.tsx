@@ -80,6 +80,7 @@ const TypingTest = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(0);
   const [selectedTimeLimit, setSelectedTimeLimit] = useState(timeLimit);
+  const [mobileInput, setMobileInput] = useState("");
   
   const textContainerRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -87,6 +88,7 @@ const TypingTest = ({
   const errorAudioRef = useRef<HTMLAudioElement | null>(null);
   const completionAudioRef = useRef<HTMLAudioElement | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const mobileInputRef = useRef<HTMLInputElement>(null);
 
   // Get appropriate text based on time limit
   const getTextForTimeLimit = useCallback(() => {
@@ -168,11 +170,11 @@ const TypingTest = ({
     }
   }, [isPlaying, volume, isMuted, currentTrack]);
 
-  // Focus management
+  // Focus management for mobile
   useEffect(() => {
     const handleClick = () => {
-      if (textContainerRef.current) {
-        textContainerRef.current.focus();
+      if (mobileInputRef.current) {
+        mobileInputRef.current.focus();
       }
     };
 
@@ -263,6 +265,57 @@ const TypingTest = ({
         setAccuracy(newAccuracy);
       }
     }
+  };
+
+  // Handle mobile input changes
+  const handleMobileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newChar = e.target.value.slice(-1);
+    if (newChar) {
+      const expectedChar = text[currentIndex];
+      
+      if (newChar === expectedChar) {
+        handleCorrectKey();
+      } else {
+        handleIncorrectKey();
+      }
+    }
+    // Clear the input for next character
+    setMobileInput("");
+  };
+
+  const handleCorrectKey = () => {
+    // Play key press sound
+    if (keyPressAudioRef.current && !isMuted) {
+      keyPressAudioRef.current.currentTime = 0;
+      keyPressAudioRef.current.play().catch(e => {
+        // Silent fail for audio
+      });
+    }
+    
+    setCurrentIndex(currentIndex + 1);
+    const newProgress = ((currentIndex + 1) / text.length) * 100;
+    setProgress(newProgress);
+    
+    // Check if test is completed
+    if (currentIndex + 1 >= text.length) {
+      completeTest();
+    }
+  };
+
+  const handleIncorrectKey = () => {
+    // Play error sound
+    if (errorAudioRef.current && !isMuted) {
+      errorAudioRef.current.currentTime = 0;
+      errorAudioRef.current.play().catch(e => {
+        // Silent fail for audio
+      });
+    }
+    
+    setErrors(errors + 1);
+    // Calculate accuracy
+    const totalAttempts = currentIndex + errors + 1;
+    const newAccuracy = Math.max(0, Math.round(((totalAttempts - (errors + 1)) / totalAttempts) * 100));
+    setAccuracy(newAccuracy);
   };
 
   const completeTest = () => {
@@ -453,6 +506,20 @@ const TypingTest = ({
           isCompleted && "pointer-events-none opacity-50"
         )}
       >
+        {/* Mobile Input (hidden but functional) */}
+        <input
+          ref={mobileInputRef}
+          type="text"
+          value={mobileInput}
+          onChange={handleMobileInput}
+          className="opacity-0 absolute top-0 left-0 h-full w-full cursor-default"
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck="false"
+          aria-label="Type here"
+        />
+        
         <p className="text-lg leading-relaxed font-mono select-none whitespace-pre-wrap">
           {text.split("").map((char, index) => {
             let className = "";
@@ -470,7 +537,6 @@ const TypingTest = ({
             );
           })}
         </p>
-        
       </div>
 
       {/* Reset Button for Completed Test */}
