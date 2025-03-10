@@ -9,7 +9,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Volume2, VolumeX, Play, Pause, Save, Trophy, Star, AlertCircle, Keyboard } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Music tracks
 const musicTracks = [
   {
     title: "Ambient Flow",
@@ -25,7 +24,6 @@ const musicTracks = [
   }
 ];
 
-// Sound effects
 const keyPressSound = "/key-press.mp3";
 const errorSound = "/error.mp3";
 const completionSound = "/completion.mp3";
@@ -54,21 +52,32 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
   const [showResults, setShowResults] = useState(false);
   const [suggestion, setSuggestion] = useState("");
   const [grade, setGrade] = useState<"excellent" | "good" | "average" | "needsPractice">("average");
+  const [mobileInput, setMobileInput] = useState("");
 
   const textContainerRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const keyPressAudioRef = useRef<HTMLAudioElement | null>(null);
   const errorAudioRef = useRef<HTMLAudioElement | null>(null);
   const completionAudioRef = useRef<HTMLAudioElement | null>(null);
+  const mobileInputRef = useRef<HTMLInputElement>(null);
 
-  // Focus management
   useEffect(() => {
     if (!isEditing && textContainerRef.current) {
       textContainerRef.current.focus();
     }
   }, [isEditing]);
 
-  // Handle music player
+  useEffect(() => {
+    const handleClick = () => {
+      if (!isEditing && mobileInputRef.current) {
+        mobileInputRef.current.focus();
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, [isEditing]);
+
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume / 100;
@@ -84,14 +93,13 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
     }
   }, [isPlaying, volume, isMuted, currentTrack]);
 
-  // Calculate WPM in real-time
   useEffect(() => {
     if (startTime && !isCompleted) {
       const interval = setInterval(() => {
         const currentTime = Date.now();
         const elapsedMinutes = (currentTime - startTime) / 60000;
         if (elapsedMinutes > 0) {
-          const words = currentIndex / 5; // Standard: 5 characters = 1 word
+          const words = currentIndex / 5;
           const currentWpm = Math.round(words / elapsedMinutes);
           setWpm(currentWpm);
         }
@@ -100,6 +108,24 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
       return () => clearInterval(interval);
     }
   }, [startTime, currentIndex, isCompleted]);
+
+  const handleMobileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newChar = e.target.value.slice(-1);
+    if (newChar && !isCompleted && !isEditing) {
+      const expectedChar = text[currentIndex];
+      
+      if (!startTime) {
+        setStartTime(Date.now());
+      }
+      
+      if (newChar === expectedChar) {
+        handleCorrectKey();
+      } else {
+        handleIncorrectKey();
+      }
+    }
+    setMobileInput("");
+  };
 
   const getPerformanceGrade = (wpm: number, accuracy: number) => {
     if (wpm >= 60 && accuracy >= 95) return "excellent";
@@ -124,12 +150,10 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (isCompleted || isEditing) return;
 
-    // Start timer on first keypress
     if (!startTime) {
       setStartTime(Date.now());
     }
 
-    // Handle special keys
     if (e.key === 'Enter') {
       e.preventDefault();
       const expectedChar = text[currentIndex];
@@ -141,7 +165,6 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
       return;
     }
 
-    // Handle regular keys
     if (e.key.length === 1) {
       e.preventDefault();
       const expectedChar = text[currentIndex];
@@ -155,7 +178,6 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
   };
 
   const handleCorrectKey = () => {
-    // Play key press sound
     if (keyPressAudioRef.current && !isMuted) {
       keyPressAudioRef.current.currentTime = 0;
       keyPressAudioRef.current.play().catch(() => {});
@@ -166,7 +188,6 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
       const newProgress = (newIndex / text.length) * 100;
       setProgress(newProgress);
       
-      // Check if test is completed
       if (newIndex >= text.length) {
         completeTest();
       }
@@ -176,7 +197,6 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
   };
 
   const handleIncorrectKey = () => {
-    // Play error sound
     if (errorAudioRef.current && !isMuted) {
       errorAudioRef.current.currentTime = 0;
       errorAudioRef.current.play().catch(() => {});
@@ -195,24 +215,20 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
     if (!isCompleted) {
       setIsCompleted(true);
       
-      // Play completion sound
       if (completionAudioRef.current && !isMuted) {
         completionAudioRef.current.play().catch(() => {});
       }
       
-      // Calculate final stats
       if (startTime) {
         const elapsedMinutes = (Date.now() - startTime) / 60000;
         const words = currentIndex / 5;
         const finalWpm = Math.round(words / elapsedMinutes);
         setWpm(finalWpm);
         
-        // Set grade and suggestion
         const grade = getPerformanceGrade(finalWpm, accuracy);
         setGrade(grade);
         setSuggestion(getSuggestion(finalWpm, accuracy, errors));
         
-        // Show results modal
         setShowResults(true);
         
         if (onComplete) {
@@ -343,7 +359,6 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
         </Card>
       ) : (
         <>
-          {/* Stats Display */}
           <div className="grid grid-cols-3 gap-4">
             <div className="bg-card rounded-lg p-4 text-center border">
               <p className="text-sm text-muted-foreground">WPM</p>
@@ -359,10 +374,8 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
             </div>
           </div>
 
-          {/* Progress Bar */}
           <Progress value={progress} className="h-2" />
 
-          {/* Text Display and Input Area */}
           <div 
             ref={textContainerRef}
             tabIndex={0}
@@ -373,17 +386,29 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
               isCompleted && "pointer-events-none opacity-50"
             )}
           >
+            <input
+              ref={mobileInputRef}
+              type="text"
+              value={mobileInput}
+              onChange={handleMobileInput}
+              className="opacity-0 absolute top-0 left-0 h-full w-full cursor-default"
+              autoCapitalize="none"
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck="false"
+              aria-label="Type here"
+            />
+            
             <pre className="text-lg font-mono select-none whitespace-pre-wrap break-words">
               {text.split('').map((char, index) => {
                 let className = "";
                 
                 if (index < currentIndex) {
-                  className = "text-green-500 dark:text-green-400"; // Correct
+                  className = "text-green-500 dark:text-green-400";
                 } else if (index === currentIndex) {
-                  className = "bg-primary/20 text-primary underline"; // Current
+                  className = "bg-primary/20 text-primary underline";
                 }
                 
-                // Special handling for whitespace characters
                 const displayChar = char === '\n' ? '↵\n' : 
                                   char === ' ' ? ' ' : 
                                   char === '\t' ? '→   ' : char;
@@ -397,7 +422,6 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
             </pre>
           </div>
 
-          {/* Control Buttons */}
           <div className="flex justify-between gap-4">
             <Button variant="outline" onClick={() => setIsEditing(true)}>
               Edit Text
@@ -409,7 +433,6 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
             )}
           </div>
 
-          {/* Music Player */}
           <div className="bg-card p-4 rounded-lg border mt-8">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-medium">Background Music</h3>
@@ -452,13 +475,11 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
             </div>
           </div>
 
-          {/* Audio Elements */}
           <audio ref={audioRef} src={musicTracks[currentTrack].src} loop />
           <audio ref={keyPressAudioRef} src={keyPressSound} />
           <audio ref={errorAudioRef} src={errorSound} />
           <audio ref={completionAudioRef} src={completionSound} />
 
-          {/* Results Modal */}
           <Dialog open={showResults} onOpenChange={setShowResults}>
             <DialogContent className="sm:max-w-[600px]">
               <DialogHeader>
@@ -469,7 +490,6 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
               </DialogHeader>
               
               <div className="space-y-6">
-                {/* Performance Stats */}
                 <div className="grid grid-cols-3 gap-4">
                   <div className="bg-card rounded-lg p-4 text-center border">
                     <div className="flex items-center justify-center mb-2">
@@ -494,7 +514,6 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
                   </div>
                 </div>
 
-                {/* Performance Rating */}
                 <div className="flex justify-center">
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
@@ -511,12 +530,10 @@ const CustomTypingTest = ({ initialText = "", onSave, onComplete }: CustomTyping
                   </div>
                 </div>
 
-                {/* Suggestion */}
                 <div className="bg-muted/30 p-4 rounded-lg">
                   <p className="text-sm leading-relaxed">{suggestion}</p>
                 </div>
 
-                {/* Actions */}
                 <div className="flex justify-end gap-4">
                   <Button variant="outline" onClick={() => setShowResults(false)}>
                     Close
